@@ -1,0 +1,14 @@
+{
+  "name": "foundry-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bpk68/foundry-demo.git",
+  "author": "Rob Kendal <me@robkendal.co.uk>",
+  "license": "GNU",
+  "dependencies": {
+    "aws-sdk": "^2.656.0",
+    "chalk": "^4.0.0",
+    "serverless-s3-sync": "^1.12.0",
+    "uuid": "^7.0.3"
+  }
+}

@@ -1,0 +1,61 @@
+service: foundry-tech-demo
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-2
+
+
+plugins: 
+  - serverless-s3-sync
+  - file-extractor
+
+
+custom:
+  s3Sync:
+    - bucketName: bpk-foundry-bucket
+      localDir: uploads
+  fileExtractor:
+    - bucketName: bpk-foundry-bucket
+      fileName: 'names.json'
+      tableName: fileTable
+
+
+functions:
+  quoteOfTheDay:
+    handler: handler.quoteOfTheDay
+
+        
+resources:
+  Resources:
+    FileBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: bpk-foundry-bucket
+        CorsConfiguration:
+          CorsRules:
+            -
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000
+    FileTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: fileTable
+        AttributeDefinitions: 
+          - AttributeName: nameId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: nameId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
